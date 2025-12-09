@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Jal Netra - API Key Generator</title>
+    <meta charset="UTF-8">
+
     <style>
         * {
             margin: 0;
@@ -458,21 +460,20 @@ function selectOS(os) {
 
 function updateCurlCommand(key) {
     let command;
+
     if (currentOS === 'windows') {
-        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s ^
-  -H "x-api-key: ${key}" ^
-  -F image=@image.png`;
-    } else if (currentOS === 'mac') {
-        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\
-  -H 'x-api-key: ${key}' \\
-  -F 'image=@image.png'`;
-    } else {
-        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\
-  -H "x-api-key: ${key}" \\
-  -F "image=@image.png"`;
+        command = `curl.exe -X POST "http://44.192.15.232:5000/v1/object-detection/yolov5s" ^\n  -H "x-api-key: ${key}" ^\n  -F "image=@image.png"`;
+    } 
+    else if (currentOS === 'mac') {
+        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\\n  -H "x-api-key: ${key}" \\\n  -F "image=@image.png"`;
+    } 
+    else {
+        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\\n  -H "x-api-key: ${key}" \\\n  -F "image=@image.png"`;
     }
+
     document.getElementById("curlCmd").innerText = command;
 }
+
 
 function copyApiKey() {
     const key = document.getElementById("apiKey").innerText;
