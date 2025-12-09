@@ -459,17 +459,17 @@ function selectOS(os) {
 function updateCurlCommand(key) {
     let command;
     if (currentOS === 'windows') {
-        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s ^
+        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s ^
   -H "x-api-key: ${key}" ^
-  -F image=@image.jpg`;
+  -F image=@image.png`;
     } else if (currentOS === 'mac') {
-        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s \\
+        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\
   -H 'x-api-key: ${key}' \\
-  -F 'image=@image.jpg'`;
+  -F 'image=@image.png'`;
     } else {
-        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s \\
+        command = `curl -X POST http://44.192.15.232:5000/v1/object-detection/yolov5s \\
   -H "x-api-key: ${key}" \\
-  -F "image=@image.jpg"`;
+  -F "image=@image.png"`;
     }
     document.getElementById("curlCmd").innerText = command;
 }
@@ -505,7 +505,7 @@ function copyCurlCmd() {
 function registerKey() {
     const key = document.getElementById("apiKey").innerText;
 
-    fetch("http://localhost:5000/register-key", {
+    fetch("http://44.192.15.232:5000/register-key", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ api_key: key })
