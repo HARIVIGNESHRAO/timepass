@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jal Netra - API Key Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+            background: #0a1628;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(0, 168, 232, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 119, 190, 0.05) 0%, transparent 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        .water-drops {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .drop {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(0, 212, 255, 0.6);
+            border-radius: 50%;
+            animation: fall linear infinite;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 
+                0 0 80px rgba(0, 168, 232, 0.3),
+                0 20px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 750px;
+            width: 100%;
+            padding: 50px;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 72px;
+            filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.8));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h2 {
+            background: linear-gradient(135deg, #00a8e8 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #0077be 0%, #00a8e8 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            font-size: 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-weight: 700;
+            box-shadow: 
+                0 4px 20px rgba(0, 168, 232, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.2);
+            display: block;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 6px 30px rgba(0, 168, 232, 0.6),
+                0 0 50px rgba(0, 212, 255, 0.4);
+        }
+
+        .generate-btn:active {
+            transform: translateY(-1px);
+        }
+
+        #box {
+            padding: 30px;
+            border: 2px solid rgba(0, 168, 232, 0.3);
+            border-radius: 16px;
+            margin-top: 35px;
+            background: rgba(30, 41, 59, 0.5);
+            animation: slideIn 0.5s ease;
+            box-shadow: inset 0 0 30px rgba(0, 168, 232, 0.1);
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h3 {
+            color: #e2e8f0;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        h3::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(135deg, #00a8e8, #00d4ff);
+            border-radius: 2px;
+        }
+
+        .key-container {
+            position: relative;
+        }
+
+        #apiKey {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 168, 232, 0.3);
+            font-family: 'Courier New', monospace;
+            font-size: 15px;
+            color: #00d4ff;
+            word-break: break-all;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .os-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 18px;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(0, 168, 232, 0.2);
+        }
+
+        .os-btn {
+            background: rgba(30, 41, 59, 0.8);
+            color: #94a3b8;
+            border: 1px solid rgba(0, 168, 232, 0.3);
+            padding: 10px 24px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            display: inline-block;
+            margin: 0;
+        }
+
+        .os-btn:hover {
+            background: rgba(0, 119, 190, 0.3);
+            color: #00d4ff;
+            border-color: #00a8e8;
+            transform: translateY(-2px);
+        }
+
+        .os-btn.active {
+            background: linear-gradient(135deg, #0077be 0%, #00a8e8 100%);
+            color: white;
+            border-color: #00d4ff;
+            box-shadow: 
+                0 4px 15px rgba(0, 168, 232, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .code-container {
+            position: relative;
+        }
+
+        pre {
+            background: rgba(15, 23, 42, 0.9);
+            color: #00d4ff;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 168, 232, 0.3);
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 168, 232, 0.2);
+            color: #00d4ff;
+            border: 1px solid rgba(0, 168, 232, 0.4);
+            padding: 8px 16px;
+            font-size: 13px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .copy-btn:hover {
+            background: rgba(0, 168, 232, 0.4);
+            border-color: #00d4ff;
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: rgba(0, 212, 106, 0.3);
+            border-color: #00d46a;
+            color: #00d46a;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #0077be 0%, #00a8e8 100%);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 168, 232, 0.4);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 168, 232, 0.6);
+        }
+
+        #result {
+            background: rgba(15, 23, 42, 0.8);
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 168, 232, 0.3);
+            margin-top: 18px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #00d4ff;
+            min-height: 20px;
+            word-break: break-all;
+            line-height: 1.6;
+        }
+
+        #result:empty {
+            display: none;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(0, 168, 232, 0.5);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 168, 232, 0.7);
+        }
+    </style>
+</head>
+<body>
+
+<div class="water-drops" id="waterDrops"></div>
+
+<div class="container">
+    <div class="header">
+        <div class="logo-container">
+            <div class="logo">💧</div>
+        </div>
+        <h2>JAL NETRA</h2>
+        <p class="subtitle">API Key Generator</p>
+    </div>
+
+    <button class="generate-btn" onclick="generateKey()">✨ Generate API Key</button>
+
+    <div id="box" style="display:none;">
+        <div class="section">
+            <h3>Your API Key</h3>
+            <div class="key-container">
+                <p id="apiKey"></p>
+                <button class="copy-btn" onclick="copyApiKey()">📋 Copy</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>cURL Command</h3>
+            <div class="os-selector">
+                <button class="os-btn active" onclick="selectOS('windows')">🪟 Windows</button>
+                <button class="os-btn" onclick="selectOS('mac')">🍎 macOS</button>
+                <button class="os-btn" onclick="selectOS('linux')">🐧 Linux</button>
+            </div>
+            <div class="code-container">
+                <pre id="curlCmd"></pre>
+                <button class="copy-btn" onclick="copyCurlCmd()">📋 Copy</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <button class="register-btn" onclick="registerKey()">🚀 Register Key on Server</button>
+            <p id="result"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Create water drop animation
+function createWaterDrops() {
+    const container = document.getElementById('waterDrops');
+    for (let i = 0; i < 30; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'drop';
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDuration = (Math.random() * 3 + 2) + 's';
+        drop.style.animationDelay = Math.random() * 2 + 's';
+        container.appendChild(drop);
+    }
+}
+
+createWaterDrops();
+
+let currentOS = 'windows';
+
+function generateKey() {
+    const key = [...crypto.getRandomValues(new Uint8Array(16))]
+        .map(b => b.toString(16).padStart(2, "0")).join("");
+
+    document.getElementById("apiKey").innerText = key;
+    document.getElementById("box").style.display = "block";
+
+    updateCurlCommand(key);
+}
+
+function selectOS(os) {
+    currentOS = os;
+    const buttons = document.querySelectorAll('.os-btn');
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    const key = document.getElementById("apiKey").innerText;
+    updateCurlCommand(key);
+}
+
+function updateCurlCommand(key) {
+    let command;
+    if (currentOS === 'windows') {
+        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s ^
+  -H "x-api-key: ${key}" ^
+  -F image=@image.jpg`;
+    } else if (currentOS === 'mac') {
+        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s \\
+  -H 'x-api-key: ${key}' \\
+  -F 'image=@image.jpg'`;
+    } else {
+        command = `curl -X POST http://localhost:5000/v1/object-detection/yolov5s \\
+  -H "x-api-key: ${key}" \\
+  -F "image=@image.jpg"`;
+    }
+    document.getElementById("curlCmd").innerText = command;
+}
+
+function copyApiKey() {
+    const key = document.getElementById("apiKey").innerText;
+    navigator.clipboard.writeText(key).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+function copyCurlCmd() {
+    const cmd = document.getElementById("curlCmd").innerText;
+    navigator.clipboard.writeText(cmd).then(() => {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+            btn.textContent = originalText;
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+function registerKey() {
+    const key = document.getElementById("apiKey").innerText;
+
+    fetch("http://localhost:5000/register-key", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ api_key: key })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    })
+    .catch(err => {
+        document.getElementById("result").innerText = "Error: " + err.message;
+    });
+}
+</script>
+
+</body>
+</html>
